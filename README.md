@@ -5,7 +5,8 @@ A Next.js (pages router) reference project covering React basics, authentication
 ## Getting started
 
 ```bash
-cp .env.example .env   # NEXT_PUBLIC_BACK_APP_URL points at the backend API
+cp .env.example .env   # NEXT_PUBLIC_BACK_APP_URL points at the backend API,
+                       # NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is your Stripe pk_test_/pk_live_ key
 npm install
 npm run dev            # http://localhost:3000
 ```
