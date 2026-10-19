@@ -6,11 +6,15 @@ import {Elements}   from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import CheckoutForm from "./CheckoutForm";
 
-const stripePromise = loadStripe("pk_test_51K1UuwInlOA9yNcKf3LCNL3AalblKDMU2F89tl9bbAxBhaFADN4Jsa3OBrVNNo6jWc7B8CZSURP6SU3NhAAcDTFF00NgLwGVSn");
+const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+const stripePromise  = publishableKey ? loadStripe(publishableKey) : null;
 
 function Strip() {
     const [clientSecret, setClientSecret] = useState("");
     useEffect(() => {
+                  if (!stripePromise) {
+                      return;
+                  }
                   // Create PaymentIntent as soon as the page loads
                   fetch(process.env.NEXT_PUBLIC_BACK_APP_URL + "/api/reserve",
                         {
@@ -29,6 +33,9 @@ function Strip() {
         clientSecret,
         appearance,
     };
+    if (!stripePromise) {
+        return <p>Payments are not configured: set NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY in .env.</p>;
+    }
     return (
         <div>
             {clientSecret && (
